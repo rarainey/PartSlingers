@@ -1,0 +1,73 @@
+<h1>3. Review Your Order</h1>
+
+<div class='container position-absolute top-1 end-0 w-25'>
+    <div class='row'>
+        <div class='col'>
+            <ul style='list-style-type:none; line-height:1'>
+            <% @subtotal = 0 %>
+            <% @items.each do |item| %>
+            <% @quantity = @cart.order_items.where(item_id: item.id).first.quantity%>
+                <% @subtotal = @subtotal + (item.price * @quantity) %> 
+            <% end %>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Sub: $<%= '%.2f' % @subtotal%> </p> </li>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Tax: $<%= '%.2f' % (@subtotal * 0.07) %> </p> </li>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Shipping: $6.99 </p> </li>
+            <li style='text-align:right; margin-right:50px; margin-top:10px'> <p class="fs-6"> Total: $<%= '%.2f' % ((@subtotal * 1.07) + 6.99) %> </p> </li>
+            </ul>
+        </div>            
+    </div>
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-5'>
+            <h3>Shipping Address:</h3> 
+            <%= link_to 'Edit', shipping_url %>
+            <ul style='list-style-type:none'>
+                <li> <%= @shipping.name %> </li>
+                <li> <%= "#{@shipping.address}, #{@shipping.city}, #{@shipping.state}, #{@shipping.zip}"%>
+                <li> <%= @shipping.phone_num %> </li>
+            </ul>
+        </div>
+
+        <div class='col-sm-5'>
+            <h3>Payment Information:</h3>
+            <%= link_to 'Edit', payment_url %>
+            <ul style='list-style-type:none'>
+            <% @last_four_digits = @payment.card_num[@payment.card_num.length - 4 ,4]%>
+                <li> <%= @payment.card_name %>
+                <li> Card Ending in <%= @last_four_digits %> </li>
+                <li> <%= "#{@payment.address}, #{@payment.city}, #{@payment.state}, #{@payment.zip}"%>
+                <li> <%= @payment.phone_num %> </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <% @items.each do |item| %>
+    <% @quantity = @cart.order_items.where(item_id: item.id).first.quantity%>
+    <div class="row">
+        <div class="col-sm-3">
+            <ul style='list-style-type:none'>
+                <li> <%= image_tag item.picture, style:"width:250px; height:250px; object-fit:scale-down" %> </li>
+            </ul>
+        </div>
+        <div class="col-sm-7"> 
+            <ul style='list-style-type:none'>
+                <li style = "margin-top: 75px"> Quantity: <%= @quantity%> </li>
+                <li> <%= link_to item.title, item_path(item) %> </li>
+                <li> <%= item.category %> </li>
+                <li> $<%= '%.2f' %item.price %> </li>
+            </ul>
+    </div>
+    <% end %>
+    
+    <div class="col-sm-3 position-absolute end-0 bottom-0">
+        <ul style='list-style-type:none'>
+            <li style='text-align:right; margin-right:50px; margin-top:10px'> <%= button_to "Place Your Order", place_order_url(@cart), method: :patch, data:{turbo: false}, class:"btn btn-primary" %></li>
+            <li style='text-align:right; margin-right:50px; margin-top:10px'> <%= link_to "Back to Cart", :back, class: 'btn btn-secondary' %></li>
+        </ul>
+    </div>
+
+</div>

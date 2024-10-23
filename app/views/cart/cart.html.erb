@@ -1,0 +1,76 @@
+<h1>Cart</h1>
+
+<% if @items.empty?%>
+    <h2> Oops you have no items in your cart! </h2>
+    <p> <%= link_to "Find some", shop_url%> </p>
+
+<% else %>
+    <div class='container position-absolute top-1 end-0 w-25'>
+        <div class='row'>
+            <div class='col'>
+                <ul style='list-style-type:none; line-height:1'>
+                <% @subtotal = 0 %>
+                <% @items.each do |item| %>
+                <% @quantity = @cart.order_items.where(item_id: item.id).first.quantity%>
+                    <% if item.for_sale %>
+                        <% @subtotal = @subtotal + (item.price * @quantity) %> 
+                    <% end %>
+                <% end %>
+                <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Sub: $<%= '%.2f' % @subtotal%> </p> </li>
+                <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Tax: $<%= '%.2f' % (@subtotal * 0.07) %> </p> </li>
+                <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Shipping: $6.99 </p> </li>
+                <li style='text-align:right; margin-right:50px; margin-top:10px'> <p class="fs-6"> Total: $<%= '%.2f' % ((@subtotal * 1.07) + 6.99) %> </p> </li>
+                </ul>
+            </div>            
+        </div>
+    </div>
+
+    <div class="container">
+        <% @items.each do |item| %>
+        <% @quantity = @cart.order_items.where(item_id: item.id).first.quantity%>
+        <div class="row">
+            <div class="col-sm-3">
+                <ul style='list-style-type:none'>
+                    <li> <%= image_tag item.picture, style:"width:250px; height:250px; object-fit:scale-down" %> </li>
+                </ul>
+            </div>
+            <div class="col-sm-7"> 
+                <ul style='list-style-type:none'>
+                    <div class="row" style='margin-top:55px'>
+                        <div class="col">
+                            <div class="dropdown">
+                            <li> Quantity: <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%= @quantity %>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <% (1...11).each do |i| %>
+                                    <li> <%= button_to i, cart_modify_quantity_path(item, i), method: :patch, data: {turbo: false}, class: "w-100", style: "border: none" %> </li>
+                                <% end %>
+                            </ul>
+                            </div>
+                        <p style="margin-left: 67px; font-size: 14px">limit: 10</p>
+                        </div>
+                        <div class="col">
+                           <li> <%= button_to "Remove", cart_delete_path(item), method: :delete, data: {turbo: false}, class: "btn btn-secondary" %> </li>
+                        </div>
+                    <li> <%= link_to item.title, item_path(item) %> </li>
+                    <li> <%= item.category %> </li>
+                    <% if item.for_sale %>
+                        <li> $<%= '%.2f' % item.price %> </li>
+                    <% else %>
+                        <li style='color:red'> Not for sale</li>
+                    <% end %>
+                </ul>
+        </div>
+        <% end %>
+
+        <% if @cart.items.where(for_sale: false).empty? %>
+            <div class="col-sm-3 position-absolute end-0 bottom-0">
+                <ul style='list-style-type:none'>
+                    <li style='text-align:right; margin-right:50px; margin-top:10px'> <%= link_to "Checkout", shipping_path, class:'btn btn-primary'%></li>
+                </ul>
+            </div>
+        <% end %>
+    
+    </div>
+<% end %>

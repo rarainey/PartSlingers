@@ -1,0 +1,25 @@
+<div class='container'>
+    <div class='row' style='margin-bottom:75px'>
+        <h1 class='text-center'> GPU Comparison </h1>
+    </div>
+
+    <%= form_with url: display_comparison_path, method: :get do |f| %>
+        <div class='row' style='margin-bottom:300px'>
+            <div class='col-5'>
+                <%= f.collection_select :gpu1, @gpus, :id, :title, { include_blank: 'Select a GPU', selected: params[:gpu1] }, class: 'w-100'%>
+            </div>
+
+            <div class='col-2'>
+                <h3 class='text-center'> vs. </h3>
+            </div>
+
+            <div class='col-5'>
+                <%= f.collection_select :gpu2, @gpus, :id, :title, { include_blank: 'Select a GPU', selected: params[:gpu2] }, class: 'w-100' %>
+            </div>
+        </div>
+
+        <div class='position-absolute end-0 bottom-0' style='margin-right:50px; margin-top:10px'>
+            <p class='text-end'><%= f.submit 'Compare', name: nil, class: 'btn btn-primary' %></p>
+        </div>
+    <% end %>
+</div>

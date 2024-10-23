@@ -1,0 +1,49 @@
+<h1>Editing <%= @bundle.title %> Bundle </h1>
+ 
+<style>
+/* Removes number arrows from number_fields */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
+<%= bootstrap_form_with model: @bundle, url: bundle_path(@bundle), method: :patch, data: { turbo: false } do |f| %>
+
+    <div class='row' style='margin-top: 25px'>
+        <div class='col-4'>
+            <%= f.text_field :title %>
+            <%= f.file_field :picture, label: 'Replace Image?' %>
+            <%= image_tag @bundle.picture, style:"width:250px; height:250px; object-fit:scale-down" %>
+            <%= f.text_area :description %>
+        </div>
+        <div class='col-4'>
+            <%= f.collection_select :gpu, Item.where(category: "GPU"), :id, :title, { selected: @bundle.gpu, label:'GPU' }, class: 'w-100'%>
+            <%= f.collection_select :cpu, Item.where(category: "CPU"), :id, :title, { selected: @bundle.cpu, label:'CPU' }, class: 'w-100'%>
+            <%= f.collection_select :motherboard, Item.where(category: "Motherboard"), :id, :title, { selected: @bundle.motherboard }, class: 'w-100'%>
+            <%= f.collection_select :psu, Item.where(category: "PSU"), :id, :title, { selected: @bundle.psu, label:'PSU' }, class: 'w-100'%>
+        </div>
+        <div class='col-4'>
+            <%= f.collection_select :ram, Item.where(category: "RAM"), :id, :title, { selected: @bundle.ram, label:'RAM' }, class: 'w-100'%>
+            <%= f.collection_select :storage, Item.where(category: "Storage"), :id, :title, { selected: @bundle.storage }, class: 'w-100'%>
+            <%= f.collection_select :cooler, Item.where(category: "Cooler"), :id, :title, { selected: @bundle.cooler }, class: 'w-100'%>
+            <%= f.collection_select :case, Item.where(category: "Case"), :id, :title, { selected: @bundle.case }, class: 'w-100'%>
+        </div>
+
+        <div class="col-2 position-absolute end-0 bottom-0">
+            <ul style='list-style-type:none'>
+                <li style='text-align:right; margin-right:50px; margin-bottom:5px'><%= f.submit(class: "btn btn-primary") %></li>
+                <li style='text-align:right; margin-right:50px; margin-bottom:20px'><%= link_to "Back", bundle_path(@bundle), class: "btn btn-secondary"%></li>
+            </div>
+        </div>
+    </div>
+ 
+<% end %>

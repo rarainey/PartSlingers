@@ -1,0 +1,313 @@
+<div class='container position-absolute end-0 w-25 border'>
+    <div class='row'>
+        <h2 class='text-center'>Checklist</h2>
+        <div class='col-8'>
+            <ul style='list-style-type:none; line-height:3'>
+                <li>GPU:</li>
+                <li>CPU:</li>
+                <li>Motherboard:</li>
+                <li>PSU:</li>
+                <li>RAM:</li>
+                <li>Storage:</li>
+                <li>Cooler:</li>
+                <li>Case:</li>
+                <li>Total Price:</p>
+            </ul>
+        </div>
+        <div class='col-4'>
+            <ul style='list-style-type:none; line-height:3'>
+                <% if @gpus.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @cpus.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @motherboards.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @psus.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @rams.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @storages.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @coolers.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <% if @cases.any? %>
+                    <li><%= image_tag 'Marks/checkmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% else %>
+                    <li><%= image_tag 'Marks/xmark', style: 'border:0px; background-color:#16213E' %></li>
+                <% end %>
+
+                <li style='margin-left:-20px'>$<%= "%.2f" % @checklist_total %></li>
+            </ul>
+        </div>
+    </div>
+    <div class='row'>
+        <p class='text-center' style='margin-top:20px'><%= link_to 'Calculate Your Wattage!', get_wattage_path %></p>
+    </div>
+</div>
+<div class='container position-absolute end-0 w-25' style='margin-top:565px; line-height:3'>
+    <%= link_to 'Add Cart Items to Checklist', cart_to_checklist_path, class: 'btn btn-primary w-100'%>
+    <%= link_to 'Add Checklist Items to Cart', checklist_to_cart_path, class: 'btn btn-primary w-100'%>
+</div>
+
+
+<div class='container position-absolute start-0 w-75'>
+    <div class='row'>
+        <div class='col-3'>
+            <h1>GPU:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'GPU'}) %></p>
+        </div>
+    </div>
+    <% if @gpus.any? %>
+        <% @gpus.each do |gpu| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (gpu.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{gpu.title}", item_path(gpu.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: gpu).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % gpu.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(gpu.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No GPU Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>CPU:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'CPU'}) %></p>
+        </div>
+    </div>
+    <% if @cpus.any? %>
+        <% @cpus.each do |cpu| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (cpu.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{cpu.title}", item_path(cpu.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: cpu).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % cpu.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(cpu.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No CPU Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>Motherboard:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'Motherboard'}) %></p>
+        </div>
+    </div>
+    <% if @motherboards.any? %>
+        <% @motherboards.each do |motherboard| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (motherboard.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{motherboard.title}", item_path(motherboard.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: motherboard).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % motherboard.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(motherboard.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No Motherboard Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>PSU:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'PSU'}) %></p>
+        </div>
+    </div>
+    <% if @psus.any? %>
+        <% @psus.each do |psu| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (psu.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{psu.title}", item_path(psu.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: psu).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % psu.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(psu.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No PSU Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>RAM:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'RAM'}) %></p>
+        </div>
+    </div>
+    <% if @rams.any? %>
+        <% @rams.each do |ram| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (ram.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{ram.title}", item_path(ram.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: ram).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % ram.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(ram.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No RAM Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>Storage:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'Storage'}) %></p>
+        </div>
+    </div>
+    <% if @storages.any? %>
+        <% @storages.each do |storage| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (storage.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{storage.title}", item_path(storage.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: storage).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % storage.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(storage.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No Storage Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>Cooler:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'Cooler'}) %></p>
+        </div>
+    </div>
+    <% if @coolers.any? %>
+        <% @coolers.each do |cooler| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (cooler.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{cooler.title}", item_path(cooler.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: cooler).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % cooler.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(cooler.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No Cooler Found</p>
+    <% end %>
+
+    <div class='row'>
+        <div class='col-3'>
+            <h1>Case:</h1>
+        </div>
+        <div class='col-9'>
+            <p class='text-end'><%= link_to 'Find one!', shop_path(q: {category_eq: 'Case'}) %></p>
+        </div>
+    </div>
+    <% if @cases.any? %>
+        <% @cases.each do |tower| %>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag (tower.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none'>
+                        <li><%= link_to "#{tower.title}", item_path(tower.id) %></li>
+                        <li>Quantity: <%= @checklist.order_items.where(item: tower).first.quantity %></li>
+                        <li style='line-height:5'>$<%= "%.2f" % tower.price %></li>
+                        <li><%= button_to 'Remove', checklist_delete_path(tower.id), method: :delete, data: { turbo: false }, class: 'btn btn-secondary btn-sm' %></li>
+                    </ul>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>No Case Found</p>
+    <% end %>
+</div>

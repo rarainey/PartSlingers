@@ -1,0 +1,87 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+// Custom bootstrap variables must be set or imported *before* bootstrap.
+@import "yeti/variables";
+@import "bootstrap";
+@import "yeti/bootswatch";
+
+@import "rails_bootstrap_forms";
+
+label.required:after {
+  content:" *";
+}
+
+main {
+  margin-top: 20px;
+}
+
+.alert-dismissible {
+  padding-left: $alert-dismissible-padding-r;
+}
+
+body {
+  background-color: #16213E;
+  color: white;
+  font-family: Arial;
+}
+
+a {
+  color:#E94560;
+}
+
+a:hover {
+  color: gold;
+}
+
+.navbar {
+  background-color: #1A1A2E;
+}
+
+.navbar-brand,
+.nav-link.btn.btn-link {
+  color: white;
+}
+
+.nav-link.btn.btn-link:hover,
+.navbar-form,
+.btn-default:hover,
+.navbar-brand:hover {
+  color: #E94560;
+}
+
+.btn-default {
+  color: white;
+}
+
+.form-control:focus {
+  box-shadow: 0 0;
+}
+
+.btn-primary {
+  color: white;
+  background-color: #E94560;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-secondary:hover {
+  color: #16213E !important;
+  background-color: gold !important;
+}
+
+img {
+  background-color: white;
+  border: 3px solid #E94560;
+}

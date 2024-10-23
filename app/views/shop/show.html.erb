@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+            <ul style='list-style-type:none'>
+                <li><p class="fs-6"> <%= link_to "< Back", :back %> </p></li>
+                <li> <%= image_tag @item.picture, style:"width:400px; height:400px; object-fit:scale-down" %> </li>
+                <% if user_signed_in? and current_user.admin_status == true %>
+                    <li class='text-center' style='margin-top:20px'><%= link_to "Edit Listing", edit_item_path(@item), class: "btn btn-primary" %></li>
+                    <% if @item.for_sale %>
+                        <li class='text-center' style='margin-top:5px'><%= button_to "Hide Listing", hide_item_path(@item), method: :patch, data: { turbo: false }, class: "btn btn-primary" %></li>
+                    <% else %>
+                        <li class='text-center' style='margin-top:5px'><%= button_to "Show Listing", hide_item_path(@item), method: :patch, data: { turbo: false }, class: "btn btn-primary" %></li>                    
+                    <% end %>
+                <% end %>
+            </ul>
+        </div>
+
+        <div class="col-sm-5">
+            <ul style='list-style-type:none'>
+                <li style='margin-top:10px'><h1> <%= @item.title %> </h1></li>
+                <li style='margin-top:10px'><h2> <%= @item.category %> </h2></li>
+                <% if @item.for_sale %>
+                    <li style='margin-top:10px'><h4> $<%= '%.2f' % @item.price %> </h4></li>
+                <% else %>
+                    <li style='margin-top:10px'><h4> Not for sale </h4> </li>
+                <% end %>
+                <li style='margin-top:10px'><p> <%= @item.description %> </p> </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-2 position-absolute end-0 bottom-0">
+            <ul style='list-style-type:none'>
+                <% if user_signed_in? %>
+                    <% if @item.for_sale %>
+                        <li class='text-center' style='margin-right:50px'> $<%= '%.2f' % @item.price %> </li>
+                        <li class='text-center' style='margin-right:50px; margin-top:20px'><%= button_to 'Add to Cart', add_to_cart_path(@item), method: :post, data: { turbo: false }, class: "btn btn-primary" %></li>
+                    <% else %>
+                        <li class='text-center' style='margin-right:50px'> Not for sale </li>
+                    <% end %>
+                    <li class='text-center' style='margin-right:50px; margin-top:20px'><%= button_to 'Add to Checklist', add_to_checklist_path(@item), method: :post, data: { turbo: false }, class: "btn btn-primary" %></li>
+                <% else %>
+                    <li class='text-center' style='margin-right:50px; margin-bottom:50px'> Sign-in to add this item to your cart. </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>

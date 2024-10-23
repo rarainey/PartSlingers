@@ -1,0 +1,65 @@
+<p> <%= link_to "<-- Back to Orders", orders_path%> </p>
+<h1 style='margin-top:15px'> Order #<%= @order.order_num %> </h1>
+
+<h2><%= @order.status%> </h2>
+
+<h3> Thank you, <%= @order.shipping_address.name%> </h3>
+<h3> Estimated Delivery Date: <%= @order.estimated_arrival.strftime('%m-%d-%Y') %> </h3>
+
+<div class='container position-absolute top-1 end-0 w-25'>
+    <div class='row'>
+        <div class='col-9'>
+            <ul style='list-style-type:none; line-height:1'>
+            <li> <p class="fs-6"> Sub: $<%= '%.2f' % @order.subtotal%> </p> </li>
+            <li> <p class="fs-6"> Tax: $<%= '%.2f' % @order.tax %> </p> </li>
+            <li> <p class="fs-6"> Shipping: $<%= '%.2f' % @order.shipping_cost %> </p> </li>
+            <li style='margin-top:10px'> <p class="fs-6"> Total: $<%= '%.2f' % @order.total %> </p> </li>
+            </ul>
+        </div>        
+    </div>
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-5'>
+            <h3>Shipping Address:</h3>
+            <ul style='list-style-type:none'>
+                <li> <%= @shipping.name %> </li>
+                <li> <%= "#{@shipping.address}, #{@shipping.city}, #{@shipping.state}, #{@shipping.zip}"%>
+                <li> <%= @shipping.phone_num %> </li>
+            </ul>
+        </div>
+
+        <div class='col-sm-5'>
+            <h3>Payment Information:</h3>
+            <ul style='list-style-type:none'>
+            <% @last_four_digits = @payment.card_num[@payment.card_num.length - 4 ,4]%>
+                <li> <%= @payment.card_name %>
+                <li> Card Ending in <%= @last_four_digits %> </li>
+                <li> <%= "#{@payment.address}, #{@payment.city}, #{@payment.state}, #{@payment.zip}"%>
+                <li> <%= @payment.phone_num %> </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <% @items.each do |item| %>
+    <% @orderItem = @order.order_items.where(item_id: item.id).first %>
+    <% @quantity = @orderItem.quantity %>
+    <div class="row">
+        <div class="col-sm-3">
+            <ul style='list-style-type:none'>
+                <li> <%= image_tag item.picture, style:"width:250px; height:250px; object-fit:scale-down" %> </li>
+            </ul>
+        </div>
+        <div class="col-sm-7"> 
+            <ul style='list-style-type:none'>
+                <li style = "margin-top: 75px"> Quantity: <%= @quantity%> </li>
+                <li> <%= link_to item.title, item_path(item) %> </li>
+                <li> <%= item.category %> </li>
+                <li> $<%= '%.2f' % @orderItem.price_at_time %> </li>
+            </ul>
+    </div>
+    <% end %>
+</div>

@@ -1,0 +1,8 @@
+<%= search_form_for @q, url: "/shop", method: :get, html: { class: 'navbar-form', role: 'search' } do |f| %>
+  <div class="input-group">
+    <%= f.search_field :title_or_description_or_brand_or_category_cont, class: 'form-control', placeholder: 'Search...' %>
+    <span class="input-group-btn">
+      <%= f.submit 'Search', class: 'btn btn-default' %>
+    </span>
+  </div>
+<% end %>

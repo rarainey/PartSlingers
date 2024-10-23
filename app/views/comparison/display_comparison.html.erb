@@ -1,0 +1,76 @@
+<div class='container'>
+    <div class='row border-bottom'>
+        <div class='col-6'>
+            <div class='row'>
+                <%= link_to "#{@gpu1.title}", item_path(@gpu1) %>
+            </div>
+            
+            <div class='row' style='margin-top:10px'>
+                <div class='col-5'>
+                    <%= image_tag (@gpu1.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none; line-height:3'>
+                        <li> <%= "$#{"%.2f" % @gpu1.price}" %> </li>
+                        <% if user_signed_in? %>
+                            <li> <%= button_to 'Add To Cart', add_to_cart_path(@gpu1, gpu1: params[:gpu1], gpu2: params[:gpu2], page: 'comparison'), class:'btn btn-primary' %>
+                            <li> <%= button_to 'Add To Checklist', add_to_checklist_path(@gpu1, gpu1: params[:gpu1], gpu2: params[:gpu2], page: 'comparison'), class:'btn btn-primary' %>
+                        <% else %>
+                            <li> Sign in to add to cart. </li>
+                            <li> Sign in to add to checklist. </li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class='row border-top border-end' style='margin-top:10px'>
+                <h5> Description: </h5>
+                <p> <%= @gpu1.description %> </p>
+                <h5> <%= "Ranking: #{@gpu1.gpu_rank}" %>
+            </div>
+        </div>
+
+        <div class='col-6'>
+            <div class='row'>
+                <%= link_to "#{@gpu2.title}", item_path(@gpu2) %>
+            </div>
+
+            <div class='row' style='margin-top:10px'>
+                <div class='col-5'>
+                    <%= image_tag (@gpu2.picture), style:'width:250px; height:250px; object-fit:scale-down' %>
+                </div>
+
+                <div class='col-7'>
+                    <ul style='list-style-type:none; line-height:3'>
+                        <li> <%= "$#{"%.2f" % @gpu2.price}" %> </li>
+                        <% if user_signed_in? %>
+                            <li> <%= button_to 'Add To Cart', add_to_cart_path(@gpu2, gpu1: params[:gpu1], gpu2: params[:gpu2], page: 'comparison'), class:'btn btn-primary' %>
+                            <li> <%= button_to 'Add To Checklist', add_to_checklist_path(@gpu2, gpu1: params[:gpu1], gpu2: params[:gpu2], page: 'comparison'), class:'btn btn-primary' %>
+                        <% else %>
+                            <li> Sign in to add to cart. </li>
+                            <li> Sign in to add to checklist. </li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class='row border-top' style='margin-top:10px'>
+                <h5> Description: </h5>
+                <p> <%= @gpu2.description %> </p>
+                <h5> <%= "Ranking: #{@gpu2.gpu_rank}" %>
+            </div>
+        </div>
+    </div>
+
+    <div class='row' style='margin-top:10px'>
+        <h4> <%= "The #{@winner_gpu.title} is stronger than the #{@loser_gpu.title}." %> </h4>
+    </div>
+
+    <div class='row'>
+        <div class='col-11'></div>
+        <div class='col-1'>
+            <%= link_to 'Back', gpu_selections_path(gpu1: params[:gpu1], gpu2: params[:gpu2]), class: 'btn btn-primary w-100' %>
+        </div>
+    </div>
+</div>

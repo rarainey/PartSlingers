@@ -1,0 +1,42 @@
+# == Schema Information
+#
+# Table name: bundles
+#
+#  id          :bigint           not null, primary key
+#  case        :integer
+#  cooler      :integer
+#  cpu         :integer
+#  description :text
+#  gpu         :integer
+#  motherboard :integer
+#  psu         :integer
+#  ram         :integer
+#  storage     :integer
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  title: MyString
+  description: MyText
+  gpu: 1
+  cpu: 1
+  motherboard: 1
+  psu: 1
+  ram: 1
+  case: 1
+  cooler: 1
+  storage: 1
+
+two:
+  title: MyString
+  description: MyText
+  gpu: 1
+  cpu: 1
+  motherboard: 1
+  psu: 1
+  ram: 1
+  case: 1
+  cooler: 1
+  storage: 1

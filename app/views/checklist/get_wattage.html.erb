@@ -1,0 +1,88 @@
+<div class='container'>
+    <div class='row'>
+        <h1 class='text-center' style='margin-bottom:75px'>Wattage Calculator</h1>
+    </div>
+
+    <%= form_with url: display_wattage_path, method: :get do |f| %>
+        <div class='row'>
+            <div class='col-6'>
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>GPU:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :gpu, @items.where(category: 'GPU'), :id, :title, { include_blank: 'Select a GPU', selected: @gpu }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>CPU:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :cpu, @items.where(category: 'CPU'), :id, :title, { include_blank: 'Select a CPU', selected: @cpu }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>Motherboard:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :motherboard, @items.where(category: 'Motherboard'), :id, :title, { include_blank: 'Select a Motherboard', selected: @motherboard }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>PSU:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :psu, @items.where(category: 'PSU'), :id, :title, { include_blank: 'Select a PSU', selected: @psu }, class: 'w-100' %>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col-6'>
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>RAM:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :ram, @items.where(category: 'RAM'), :id, :title, { include_blank: 'Select a RAM', selected: @ram }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>Storage:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :storage, @items.where(category: 'Storage'), :id, :title, { include_blank: 'Select a Storage', selected: @storage }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>Cooler:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :cooler, @items.where(category: 'Cooler'), :id, :title, { include_blank: 'Select a Cooler', selected: @cooler }, class: 'w-100' %>
+                    </div>
+                </div>
+
+                <div class='row' style='margin-bottom:75px'>
+                    <div class='col-5'>
+                        <h2>Case:</h2>
+                    </div>
+                    <div class='col-5'>
+                        <%= f.collection_select :case, @items.where(category: 'Case'), :id, :title, { include_blank: 'Select a Case', selected: @case }, class: 'w-100' %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%= f.submit 'Display Wattage', name: nil, class: 'btn btn-primary w-100' %>
+        
+    <% end %>
+</div>

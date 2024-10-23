@@ -1,0 +1,149 @@
+<h1>2. Payment Information </h1>
+
+<style>
+/* Removes number arrows from number_fields */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
+<div class='container position-absolute top-1 end-0 w-25'>
+    <div class='row'>
+        <div class='col'>
+            <ul style='list-style-type:none; line-height:1'>
+            <% @subtotal = 0 %>
+            <% @items = @cart.items %>
+            <% @items.each do |item| %>
+            <% @quantity = @cart.order_items.where(item_id: item.id).first.quantity%>
+                <% @subtotal = @subtotal + (item.price * @quantity) %> 
+            <% end %>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Sub: $<%= '%.2f' % @subtotal%> </p> </li>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Tax: $<%= '%.2f' % (@subtotal * 0.07) %> </p> </li>
+            <li style='text-align:right; margin-right:50px'> <p class="fs-6"> Shipping: $6.99 </p> </li>
+            <li style='text-align:right; margin-right:50px; margin-top:10px'> <p class="fs-6"> Total: $<%= '%.2f' % ((@subtotal * 1.07) + 6.99) %> </p> </li>
+            </ul>
+        </div>            
+    </div>
+</div>
+
+<% if @payment.new_record? %>
+    <%= bootstrap_form_with model: @payment, url: payment_url, method: :post, data: {turbo: false} do |f| %>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-sm-4'>
+                    <h2>Card Information:</h2>
+                    <%= f.text_field :card_name, label: 'Name on Card'%>
+                    <%= f.number_field :card_num, label: 'Card Number'%>
+                    <%= f.date_select :card_exp, order: [:month, :year], start_year: Date.current.year, end_year: (Date.current.year + 10), label: 'Card Expiration Date' %>
+                    <div class='row'>
+                        <div class='col-4'>
+                            <%= f.number_field :card_cvc, label: 'CVC Number'%>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = 'col-sm-4'>
+                    <h2>Billing Address:</h2>
+                    <%= f.text_field :address %>
+                    <div class='row'>
+                        <div class='col-4'>
+                            <%= f.text_field :city %>
+                        </div>
+                        <div class='col-4'>
+                            <%= f.number_field :zip, label: 'ZIP Code' %>
+                        </div>
+                        <div class='col-4'>
+                            <%= f.select :state, [['Choose', 'Empty'], ['Alabama', 'AL'], ['Alaska', 'AK'], ['Arizona', 'AZ'], ['Arkansas', 'AR'], 
+                            ['Colorado', 'CO'], ['Connecticut', 'CT'], ['Delaware', 'DE'], ['Disctrict of Columbia', 'DC'],
+                            ['Florida', 'FL'], ['Georgia', 'GA'], ['Hawaii', 'HI'], ['Idaho', 'ID'], ['Illinois', 'IL'], ['Indiana', 'IN'], ['Iowa', 'IA'], 
+                            ['Kansas', 'KS'], ['Kentucky', 'KY'], ['Louisiana', 'LA'], ['Maine', 'ME'], ['Maryland', 'MD'], ['Massachusetts', 'MA'], 
+                            ['Michigan', 'MI'], ['Minnesota', 'MN'], ['Mississippi', 'MS'], ['Missouri', 'MO'], ['Montana', 'MT'], ['Nebraska', 'NE'], 
+                            ['Nevada', 'NV'], ['New Hampshire', 'NH'], ['New Jersey', 'NJ'], ['New Mexico', 'NM'], ['New York', 'NY'], ['North Carolina', 'NC'], 
+                            ['North Dakota', 'ND'], ['Ohio', 'OH'], ['Oklahoma', 'OK'], ['Oregon', 'OR'], ['Pennsylvania', 'PA'], ['Rhode Island', 'RI'], 
+                            ['South Carolina', 'SC'], ['South Dakota', 'SD'], ['Tennessee', 'TN'], ['Texas', 'TX'], ['Utah', 'UT'], ['Vermont', 'VT'], 
+                            ['Virginia', 'VA'], ['Washington', 'WA'], ['West Virginia', 'WV'], ['Wisconsin', 'WI'], ['Wyoming', 'WY']] %>
+                        </div>
+                    </div>
+                
+                    <div class='row'>
+                        <div class='col-6'>
+                            <%= f.number_field :phone_num, label: 'Phone Number' %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 position-absolute end-0 bottom-0">
+                    <ul style='list-style-type:none'>
+                        <li style='text-align:right; margin-right:50px; margin-bottom:5px'><%= f.submit(class:"btn btn-primary") %></li>
+                        <li style='text-align:right; margin-right:50px; margin-bottom:20px'><%= link_to "Back", shipping_path, class: "btn btn-secondary" %></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <% end %>
+
+<% else %>
+    <%= bootstrap_form_with model: @payment, url: payment_url, method: :patch, data: {turbo: false} do |f| %>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-sm-4'>
+                    <h2>Card Information:</h2>
+                    <%= f.text_field :card_name, label: 'Name on Card'%>
+                    <%= f.number_field :card_num, label: 'Card Number'%>
+                    <%= f.date_select :card_exp, order: [:month, :year], start_year: Date.current.year, end_year: (Date.current.year + 10), label: 'Card Expiration Date' %>
+                    <div class='row'>
+                        <div class='col-4'>
+                            <%= f.number_field :card_cvc, label: 'CVC Number'%>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = 'col-sm-4'>
+                    <h2>Billing Address:</h2>
+                    <%= f.text_field :address %>
+                    <div class='row'>
+                        <div class='col-4'>
+                            <%= f.text_field :city %>
+                        </div>
+                        <div class='col-4'>
+                            <%= f.number_field :zip, label: 'ZIP Code' %>
+                        </div>
+                        <div class='col-4'>
+                            <%= f.select :state, [['Alabama', 'AL'], ['Alaska', 'AK'], ['Arizona', 'AZ'], ['Arkansas', 'AR'], 
+                            ['Colorado', 'CO'], ['Connecticut', 'CT'], ['Delaware', 'DE'], ['Disctrict of Columbia', 'DC'],
+                            ['Florida', 'FL'], ['Georgia', 'GA'], ['Hawaii', 'HI'], ['Idaho', 'ID'], ['Illinois', 'IL'], ['Indiana', 'IN'], ['Iowa', 'IA'], 
+                            ['Kansas', 'KS'], ['Kentucky', 'KY'], ['Louisiana', 'LA'], ['Maine', 'ME'], ['Maryland', 'MD'], ['Massachusetts', 'MA'], 
+                            ['Michigan', 'MI'], ['Minnesota', 'MN'], ['Mississippi', 'MS'], ['Missouri', 'MO'], ['Montana', 'MT'], ['Nebraska', 'NE'], 
+                            ['Nevada', 'NV'], ['New Hampshire', 'NH'], ['New Jersey', 'NJ'], ['New Mexico', 'NM'], ['New York', 'NY'], ['North Carolina', 'NC'], 
+                            ['North Dakota', 'ND'], ['Ohio', 'OH'], ['Oklahoma', 'OK'], ['Oregon', 'OR'], ['Pennsylvania', 'PA'], ['Rhode Island', 'RI'], 
+                            ['South Carolina', 'SC'], ['South Dakota', 'SD'], ['Tennessee', 'TN'], ['Texas', 'TX'], ['Utah', 'UT'], ['Vermont', 'VT'], 
+                            ['Virginia', 'VA'], ['Washington', 'WA'], ['West Virginia', 'WV'], ['Wisconsin', 'WI'], ['Wyoming', 'WY']] %>
+                        </div>
+                    </div>
+                
+                    <div class='row'>
+                        <div class='col-6'>
+                            <%= f.number_field :phone_num, label: 'Phone Number' %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 position-absolute end-0 bottom-0">
+                    <ul style='list-style-type:none'>
+                        <li style='text-align:right; margin-right:50px; margin-bottom:5px'><%= f.submit(class:"btn btn-primary") %></li>
+                        <li style='text-align:right; margin-right:50px; margin-bottom:20px'><%= link_to "Back", :back, class: "btn btn-secondary"%></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <% end %>
+<% end %>

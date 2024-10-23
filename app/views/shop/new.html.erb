@@ -1,0 +1,56 @@
+<h1>Create New Item</h1>
+ 
+<style>
+/* Removes number arrows from number_fields */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
+<%= bootstrap_form_with model: @item, url: shop_path, method: :post, data: { turbo: false } do |f| %>
+
+    <div class='row' style='margin-top: 25px'>
+        <div class='col-2'>
+            <div class="field">
+                <%= f.label :category %>
+                <%= f.radio_button :category, "GPU", label: "GPU" %>
+                <%= f.radio_button :category, "CPU", label: "CPU" %>
+                <%= f.radio_button :category, "Motherboard" %>
+                <%= f.radio_button :category, "PSU", label: "PSU" %> 
+                <%= f.radio_button :category, "RAM", label: "RAM" %> 
+                <%= f.radio_button :category, "Storage" %>
+                <%= f.radio_button :category, "Cooler" %> 
+                <%= f.radio_button :category, "Case" %> 
+            </div>
+        </div>
+        <div class='col-6'>
+            <%= f.text_field :title %>
+            <%= f.file_field :picture, label: "Image" %>
+            <%= f.text_field :brand %>
+            <%= f.text_area :description %>
+        </div>
+        <div class='col-2'>
+            <%= f.number_field :price,  step: 0.01 %>
+            <%= f.number_field :wattage %>
+            <%= f.number_field :gpu_rank, label: "GPU Rank" %>
+            <%= f.check_box :for_sale, label: "Available for Purchase?" %>
+        </div>
+
+        <div class="col-2 position-absolute end-0 bottom-0">
+            <ul style='list-style-type:none'>
+                <li style='text-align:right; margin-right:50px; margin-bottom:5px'><%= f.submit(class: "btn btn-primary") %></li>
+                <li style='text-align:right; margin-right:50px; margin-bottom:20px'><%= link_to "Back", shop_path, class: "btn btn-secondary" %></li>
+            </div>
+        </div>
+    </div>
+ 
+<% end %>

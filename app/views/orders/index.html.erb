@@ -1,0 +1,28 @@
+<h1>My Orders</h1>
+<br>
+
+<% if @orders.empty? %>
+    <h3> You have not placed any orders... </h3>
+    <h2> YET </h2>
+    <p> <%= link_to "Make one at the cart!", cart_path %> or <%= link_to "Build your order at the shop!", shop_path%> </p>
+<% else %>
+    <% @orders.each do |order| %>
+        <div class='container' style='margin-bottom:20px'>
+            <div class='row'>
+                <div class='col-3'>
+                    <%= image_tag order.items.first.picture, style:"width:250px; height:250px; object-fit:scale-down" %>
+                </div>
+                <div class='col-5'>
+                    <h2 style='margin-top:7px'> Order #<%= order.order_num %> </h2>
+                    <h3> <%= order.status %> </h3>
+                </div>
+                <div class='col-4'>
+                    <h4 style='margin-top:7px'> Expected Delivery: </h4>
+                    <h4> <%= order.estimated_arrival.strftime('%m-%d-%Y') %> </h4>
+                    <br>
+                    <p style='margin-top:25px'> <%= link_to 'See Details', receipt_path(order.order_num) %> </p>
+                </div>
+            </div> 
+        </div>
+    <% end %>
+<% end %>

@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>Browsing Bundles</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+    <% @bundles.each do |bundle| %>
+        <div class="col-sm">
+            <ul style='list-style-type:none'>
+                <li class='text-center' style='margin-top:20px;'> <%= link_to (image_tag bundle.picture, style:"width:250px; height:250px; object-fit:scale-down"), bundle_path(bundle) %> </li>
+                <li class='text-center' style='margin-top:4px'> <%= link_to bundle.title, bundle_path(bundle) %> </li>
+                <% @price = 0 %>
+                <% [bundle.gpu, bundle.cpu, bundle.motherboard, bundle.psu, bundle.ram, bundle.cooler, bundle.case, bundle.storage].each do |item| %>
+                    <% @price = @price + Item.where(id: item).first.price %>
+                <% end %>
+                <li class='text-center' style='margin-top:7px'> $<%= '%.2f' % @price %> </li>
+            </ul>
+        </div>
+    <%end%>
+    </div>
+</div>

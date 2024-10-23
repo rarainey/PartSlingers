@@ -1,0 +1,43 @@
+ <div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+            <ul style='list-style-type:none'>
+                <li><p class="fs-6"> <%= link_to "< Back to Bundles", bundles_path %> </p></li>
+                <li> <%= image_tag @bundle.picture, style:"width:400px; height:400px; object-fit:scale-down" %> </li>
+                <% if user_signed_in? and current_user.admin_status == true %>
+                    <li class='text-center' style='margin-top:20px'><%= link_to "Edit Listing", edit_bundle_path(@bundle), class: "btn btn-primary" %></li>
+                <% end %>
+            </ul>
+        </div>
+
+        <div class="col-sm-5">
+            <ul style='list-style-type:none'>
+                <li style='margin-top:10px'><h1> <%= @bundle.title %> </h1></li>
+                <li style='margin-top:10px'><h4> $<%= '%.2f' % @price %> </h4></li>
+                <li style='margin-top:10px'><p> <%= @bundle.description %> </p> </li>
+                <ul>
+                    <li style='margin-top:10px; font-size:14px'><p> GPU: <%= link_to Item.where(id: @bundle.gpu).first.title, item_path(@bundle.gpu) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> CPU: <%= link_to Item.where(id: @bundle.cpu).first.title, item_path(@bundle.cpu) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> Motherboard: <%= link_to Item.where(id: @bundle.motherboard).first.title, item_path(@bundle.motherboard) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> PSU: <%= link_to Item.where(id: @bundle.psu).first.title, item_path(@bundle.psu) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> RAM: <%= link_to Item.where(id: @bundle.ram).first.title, item_path(@bundle.ram) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> Storage: <%= link_to Item.where(id: @bundle.storage).first.title, item_path(@bundle.storage) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> Case: <%= link_to Item.where(id: @bundle.case).first.title, item_path(@bundle.case) %> </p></li>
+                    <li style='margin-top:10px; font-size:14px'><p> CPU Cooler: <%= link_to Item.where(id: @bundle.cooler).first.title, item_path(@bundle.cooler) %> </p></li>
+                </ul>
+            </ul>
+        </div>
+
+        <div class="col-sm-2 position-absolute end-0 bottom-0">
+            <ul style='list-style-type:none'>
+                <% if user_signed_in? %>
+                    <li class='text-center' style='margin-right:50px'> $<%= '%.2f' % @price %> </li>
+                    <li class='text-center' style='margin-right:50px; margin-top:20px'><%= button_to 'Add All to Cart', bundle_to_cart_path(@bundle), method: :post, data: { turbo: false }, class: 'btn btn-primary' %></li>
+                    <li class='text-center' style='margin-right:50px; margin-top:20px'><%= button_to 'Add to Checklist', bundle_to_checklist_path(@bundle), method: :post, data: { turbo: false }, class: 'btn btn-primary' %></li>
+                <% else %>
+                    <li class='text-center' style='margin-right:50px; margin-bottom:50px'> Sign-in to add the bundle items to your cart. </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>

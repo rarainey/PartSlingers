@@ -1,0 +1,209 @@
+<div class='container'>
+    <div class = 'row'>
+        <h1 class='text-center' style='margin-bottom:50px'>Wattage Calculator</h1>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>GPU:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@gpu) %>
+                <%= link_to "#{@gpu.title}", item_path(@gpu.id) %>
+            <% else %>
+                No GPU selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@gpu) %>
+                <%= "GPU Watts: #{@gpu.wattage} W" %>
+            <% else %>
+                GPU Watts: N/A
+            <% end %>
+        </div>
+    </div>
+                
+    <div class='row'>
+        <div class='col-2'>
+            <h4>CPU:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@cpu) %>
+                <%= link_to "#{@cpu.title}", item_path(@cpu.id) %>
+            <% else %>
+                No CPU selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@cpu) %>
+                <%= "CPU Watts: #{@cpu.wattage} W" %>
+            <% else %>
+                CPU Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>Motherboard:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@motherboard) %>
+                <%= link_to "#{@motherboard.title}", item_path(@motherboard.id) %>
+            <% else %>
+                No Motherboard selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@motherboard) %>
+                <%= "MB Watts: #{@motherboard.wattage} W" %>
+            <% else %>
+                MB Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>RAM:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@ram) %>
+                <%= link_to "#{@ram.title}", item_path(@ram.id) %>
+            <% else %>
+                No RAM selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@ram) %>
+                <%= "RAM Watts: #{@ram.wattage} W" %>
+            <% else %>
+                RAM Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>Storage:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@storage) %>
+                <%= link_to "#{@storage.title}", item_path(@storage.id) %>
+            <% else %>
+                No Storage selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@storage) %>
+                <%= "Storage Watts: #{@storage.wattage} W" %>
+            <% else %>
+                Storage Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>Cooler:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@cooler) %>
+                <%= link_to "#{@cooler.title}", item_path(@cooler.id) %>
+            <% else %>
+                No Cooler selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@cooler) %>
+                <%= "Cooler Watts: #{@cooler.wattage} W" %>
+            <% else %>
+                Cooler Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-2'>
+            <h4>Case:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@case) %>
+                <%= link_to "#{@case.title}", item_path(@case.id) %>
+            <% else %>
+                No Case selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@case) %>
+                <%= "Case Watts: #{@case.wattage} W" %>
+            <% else %>
+                Case Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <div class='row border-bottom'>
+        <div class='col-10'></div>
+        <div class='col-2'>
+            <p><%= "#{@total_wattage} W Total" %></p>
+        </div>
+    </div>
+
+    <div class='row' style='margin-top:10px; margin-bottom:50px'>
+        <div class='col-2'>
+            <h4>PSU:</h4>
+        </div>
+        <div class='col-8'>
+            <% if defined?(@psu) %>
+               <%= link_to "#{@psu.title}", item_path(@psu.id) %>
+            <% else %>
+                No PSU selected.
+            <% end %>
+        </div>
+        <div class='col-2'>
+            <% if defined?(@psu) %>
+                <%= "PSU Watts: #{@psu.wattage} W" %>
+            <% else %>
+                PSU Watts: N/A
+            <% end %>
+        </div>
+    </div>
+
+    <% if @total_wattage > 0 %>
+        <div class='row'>
+            <div class='col-10'>
+                <h3><%= "Your maximum wattage estimate is #{@max_wattage} W (Total + 100)" %>.</h3>
+            </div>
+            <div class='col-2'>
+                <% if defined?(@psu) %>
+                    <% if @max_wattage < @psu.wattage %>
+                        <h5 style='color:green'><%= "#{@max_wattage} W < #{@psu.wattage} W" %></h5>
+                    <% elsif @max_wattage == @psu.wattage %>
+                        <h5 style='color:green'><%= "#{@max_wattage} W = #{@psu.wattage} W" %></h5>
+                    <% else %>
+                        <h5 style='color:red'><%= "#{@max_wattage} W > #{@psu.wattage} W" %></h5>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+        <div class='row' style='margin-top:25px'>
+            <div class='col-10'>
+                <% if defined?(@psu)%>
+                    <% if @psu.wattage >= @max_wattage %>
+                        <h3 style='color:green'>The selected PSU will work with your current build!</h3>
+                    <% else %>
+                        <h3 style='color:red'>The selected PSU is not sufficient for your current build.</h3>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+        
+    <div class='row'>
+        <div class='col-10'></div>
+        <div class='col-2'>
+            <p><%= link_to 'Back To Selections', get_wattage_path(gpu: @gpu, cpu: @cpu, motherboard: @motherboard, psu: @psu, ram: @ram, storage: @storage, cooler: @cooler, case: @case), class: 'btn btn-primary' %></p>
+        </div>
+    </div>
+</div>

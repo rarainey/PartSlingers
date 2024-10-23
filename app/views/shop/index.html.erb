@@ -1,0 +1,48 @@
+<% if user_signed_in? and current_user.admin_status == true and @hidden.empty? == false%>
+    <h1 style='margin-top:40px'>Hidden Items:</h1>
+    <% @hidden.each do |item| %>
+        <p>ID <%=item.id%>. <%= link_to item.title, item_path(item) %> <p>
+    <% end %>
+    <br>
+<% end %>
+
+<% if @term1.blank? == false %>
+    <h1>Browsing for "<%= @term1 %>"</h1>
+<% elsif @term2.blank? == false %>
+    <h1>Browsing <%= @term2 %>s </h1>
+<% else %>
+    <h1>Browsing All</h1>
+<% end %>
+
+<div class='container position-absolute start-0 w-25' style='margin-left:100px'>
+    <% if user_signed_in? and current_user.admin_status == true %>
+        <p><%= link_to "+ Add a New Entry", new_item_path %>
+    <% end %>
+    <h3 style='margin-top:20px;margin-bottom:20px'>Shop by Type</h3>
+    <h5 style='margin-left:30px;margin-bottom:15px'> <%= link_to 'All', shop_path %> </h5>
+    <% ['GPU', 'CPU', 'Motherboard', 'PSU', 'RAM', 'Storage', 'Cooler', 'Case'].each do |type| %>
+        <div class='row border-start' style='margin-left:30px'>
+            <p style='margin-left:15px'><%= link_to type, shop_path(q: {category_eq: type}) %></p>
+        </div>
+    <% end %>
+    <br>
+</div>
+
+    <div class="container position-absolute w-75 end-0">
+        <div class='row' style='margin-left:-60px;margin-right:40px'>
+            <% if @items.empty? %>
+                <h2 style='margin-top:20px'>No search results found for "<%= @term1 %>"</h2>
+            <% else %>
+                <% @items.each do |item| %>
+                    <div class="col-sm-4">
+                        <ul style='list-style-type:none'>
+                            <li class='text-center' style='margin-top:20px;'> <%= link_to (image_tag item.picture, style:"width:250px; height:250px; object-fit:scale-down"), item_path(item) %> </li>
+                            <li class='text-center' style='margin-top:4px'> <%= link_to item.title, item_path(item) %> </li>
+                            <li class='text-center' style='margin-top:7px'> $<%= '%.2f' %item.price %> </li>
+                            <li class='text-center'> <%= item.category %> </li>
+                        </ul>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+    </div>

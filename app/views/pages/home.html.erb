@@ -1,0 +1,23 @@
+<div class='container'>
+    <div class='row'>
+        <h1 class='text-center'> PartSlingers </h1>
+        <h2 class='text-center'> With great selections comes great possibilities! </h2>
+    </div>
+
+    <div class='row' style='margin-top: 25px'>
+        <div class='col-4'>
+            <%= link_to (image_tag 'HomePhotos/shop.png', style:"width:400px; height:400px; border:0px; background-color:#16213E"), shop_path %>
+            <h3 class='text-center'> <%= link_to "Shop", shop_path %> </h3>
+        </div>
+
+        <div class='col-4'>
+            <%= link_to (image_tag 'HomePhotos/bundle.png', style:"width:400px; height:400px; border:0px; background-color:#16213E"), bundles_path %>
+            <h3 class='text-center'> <%= link_to "Bundles", bundles_path %> </h3>
+        </div>
+
+        <div class='col-4'>
+            <%= link_to (image_tag 'HomePhotos/comparison.png', style:"width:400px; height:400px; border:0px; background-color:#16213E"), gpu_selections_path %>
+            <h3 class='text-center'> <%= link_to "GPU Comparison", gpu_selections_path %> </h3>
+        </div>
+    </div>
+</div>
